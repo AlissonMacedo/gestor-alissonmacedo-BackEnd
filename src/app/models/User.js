@@ -10,6 +10,7 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
+        company_id: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -27,6 +28,10 @@ class User extends Model {
 
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
+  }
+
+  static associate(models) {
+    this.belongsTo(models.User, { foreignKey: 'company_id', as: 'company' });
   }
 }
 
