@@ -10,7 +10,6 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
-        company_id: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -31,7 +30,7 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'company_id', as: 'company' });
+    this.belongsTo(models.File, { foreignKey: 'empresa_id', as: 'empresa' });
   }
 }
 

@@ -21,16 +21,16 @@ module.exports = {
         allowNull: true,
         unique: false,
       },
-      company_id: {
+      empresa_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'company', key: 'id' },
+        references: { model: 'empresas', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: false,
       },
       class_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'class', key: 'id' },
+        references: { model: 'classes', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: false,

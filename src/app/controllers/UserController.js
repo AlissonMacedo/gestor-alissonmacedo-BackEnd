@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Empresa from '../models/Empresa';
+import File from '../models/File';
 
 class UserController {
   async store(req, res) {
@@ -23,9 +25,21 @@ class UserController {
       return res.status(400).json({ error: 'User already exists.' });
     }
 
-    const { id, name, email, provider } = await User.create(req.body);
+    const user = req.body;
 
-    return res.json({ id, name, email, provider });
+    const { id, name } = await Empresa.create({
+      name: user.name,
+    });
+
+    const userCreated = await User.create({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      provider: true,
+      empresa_id: id,
+    });
+
+    return res.json(userCreated);
   }
 
   async update(req, res) {
@@ -70,6 +84,26 @@ class UserController {
     const { id, name } = await User.findByPk(req.userId);
 
     return res.json({ id, name, email });
+  }
+
+  async delete(req, res) {
+    const user = await User.findByPk(req.params.id);
+
+    const userLoged = await User.findByPk(req.userId);
+
+    if (user.id === userLoged.id) {
+      return res.status(401).json({ error: 'You can not delete your user!' });
+    }
+
+    if (userLoged.provider === false) {
+      return res.status(401).json({ error: 'You can not delete a user!' });
+    }
+
+    await user.destroy();
+
+    console.log('deu certo!');
+
+    return res.status(400).json({ Success: 'Usuário deletado!' });
   }
 }
 

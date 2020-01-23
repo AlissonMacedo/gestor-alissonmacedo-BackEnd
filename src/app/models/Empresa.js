@@ -1,6 +1,7 @@
 import Sequelize, { Model } from 'sequelize';
+import bcrypt from 'bcryptjs';
 
-class Company extends Model {
+class Empresa extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -14,9 +15,9 @@ class Company extends Model {
     return this;
   }
 
-  static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+  checkPassword(password) {
+    return bcrypt.compare(password, this.password_hash);
   }
 }
 
-export default Company;
+export default Empresa;
