@@ -22,13 +22,13 @@ class ClassController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const classExists = await Class.findOne({
-      where: { name: req.body.name },
-    });
+    // const classExists = await Class.findOne({
+    //   where: { name: req.body.name },
+    // });
 
-    if (classExists) {
-      return res.status(400).json({ error: 'This name is used.' });
-    }
+    // if (classExists) {
+    //   return res.status(400).json({ error: 'This name is used.' });
+    // }
 
     const { empresa_id } = await User.findByPk(req.userId);
 
@@ -49,29 +49,19 @@ class ClassController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { className } = req.body;
-
-    const classe = await Class.findByPk(req.classId);
-
-    if (className !== classe.name) {
-      const classExists = await Class.findOne({
-        where: { name: className },
-      });
-
-      if (classExists) {
-        return res.status(400).json({ error: 'This name is used.' });
-      }
-    }
+    const classe = await Class.findByPk(req.params.id);
 
     await classe.update(req.body);
 
-    const { id, name } = await Class.findByPk(req.classId);
-
-    return res.json({ id, name });
+    return res.json({ Sucess: 'Class has been succefully updated' });
   }
 
   async delete(req, res) {
-    return null;
+    const { id } = req.params;
+
+    await Class.destroy({ where: { id } });
+
+    return res.send(id);
   }
 }
 
