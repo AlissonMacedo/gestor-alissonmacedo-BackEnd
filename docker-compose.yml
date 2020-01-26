@@ -1,0 +1,42 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    networks:
+      - alissonmacedoNET
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+  backend:
+    image: gestor-alissonmacedo-backend
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - migration
+    ports:
+      - '${PORT}:${PORT}'
+    links:
+      - db
+    networks:
+      - alissonmacedoNET
+  migration:
+    build: .
+    image: gestor-alissonmacedo-backend
+    command: './wait-for-it.sh db:5432 -- yarn migrate'
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=db
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - alissonmacedoNET
+networks:
+  alissonmacedoNET: null
