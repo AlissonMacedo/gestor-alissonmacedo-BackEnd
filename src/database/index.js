@@ -14,7 +14,7 @@ const models = [User, Empresa, Class, Student, File];
 class Database {
   constructor() {
     this.init();
-    this.mongo();
+    // this.mongo();
   }
 
   init() {
