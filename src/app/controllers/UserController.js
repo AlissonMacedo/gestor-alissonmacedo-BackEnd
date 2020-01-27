@@ -39,7 +39,7 @@ class UserController {
       empresa_id: id,
     });
 
-    return res.json(userCreated);
+    return res.json({ success: 'user created successfully.' });
   }
 
   async update(req, res) {
