@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 
 import User from '../app/models/User';
 import Empresa from '../app/models/Empresa';
-import Class from '../app/models/Class';
+import Classe from '../app/models/Classe';
+import Course from '../app/models/Course';
 import Student from '../app/models/Student';
 import File from '../app/models/File';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Empresa, Class, Student, File];
+const models = [User, Empresa, Classe, Course, Student, File];
 
 class Database {
   constructor() {

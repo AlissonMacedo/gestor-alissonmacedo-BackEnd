@@ -30,7 +30,7 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.File, { foreignKey: 'empresa_id', as: 'empresa' });
+    this.belongsTo(models.Empresa, { foreignKey: 'empresa_id', as: 'empresa' });
   }
 }
 

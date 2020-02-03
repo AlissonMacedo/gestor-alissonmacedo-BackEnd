@@ -1,45 +1,35 @@
 import * as Yup from 'yup';
-import Classe from '../models/Classe';
+import Course from '../models/Course';
 import User from '../models/User';
 
-class ClassController {
+class CourseController {
   async index(req, res) {
     const { empresa_id } = await User.findByPk(req.userId);
 
-    const classe = await Classe.findAll({
+    const course = await Course.findAll({
       where: { empresa_id },
     });
 
-    return res.json(classe);
+    return res.json(course);
   }
 
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      course_id: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    // const classExists = await Class.findOne({
-    //   where: { name: req.body.name },
-    // });
-
-    // if (classExists) {
-    //   return res.status(400).json({ error: 'This name is used.' });
-    // }
-
     const { empresa_id } = await User.findByPk(req.userId);
 
-    const { id, name, course_id } = await Classe.create({
+    const { id, name } = await Course.create({
       name: req.body.name,
-      course_id: req.body.course_id,
       empresa_id,
     });
 
-    return res.json({ id, name, course_id });
+    return res.json({ id, name });
   }
 
   async update(req, res) {
@@ -51,20 +41,22 @@ class ClassController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const classe = await Classe.findByPk(req.params.id);
+    const course = await Course.findByPk(req.params.id);
 
-    await classe.update(req.body);
+    await course.update(req.body);
 
-    return res.json({ Sucess: 'Class has been succefully updated' });
+    return res.json({ Success: 'Couse has ben succefully updated' });
   }
 
   async delete(req, res) {
     const { id } = req.params;
 
-    await Classe.destroy({ where: { id } });
+    await Course.destroy({
+      where: { id },
+    });
 
-    return res.send(id);
+    return res.send({ Success: 'Course success deleted' });
   }
 }
 
-export default new ClassController();
+export default new CourseController();
