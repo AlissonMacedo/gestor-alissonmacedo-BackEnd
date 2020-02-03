@@ -35,6 +35,7 @@ class CourseController {
   async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),
+      course_id: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -55,7 +56,7 @@ class CourseController {
       where: { id },
     });
 
-    return res.send({ Success: 'Course success deleted' });
+    return res.send(id);
   }
 }
 
