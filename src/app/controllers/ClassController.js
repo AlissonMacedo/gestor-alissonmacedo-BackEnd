@@ -6,12 +6,8 @@ class ClassController {
   async index(req, res) {
     const { empresa_id } = await User.findByPk(req.userId);
 
-    const { page = 1, quantity = 20 } = req.params;
-
     const classe = await Classe.findAll({
       where: { empresa_id },
-      limit: quantity,
-      offset: (page - 1) *
     });
 
     return res.json(classe);

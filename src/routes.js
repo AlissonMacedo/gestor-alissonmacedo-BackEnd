@@ -5,6 +5,8 @@ import multerConfig from './config/multer';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 
+import ForgotPassword from './app/controllers/ForgotPassword';
+
 import FileController from './app/controllers/FileController';
 import EmpresaController from './app/controllers/EmpresaController';
 import ClassController from './app/controllers/ClassController';
@@ -17,6 +19,9 @@ const upload = multer(multerConfig);
 
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
+
+routes.post('/forgot_password', ForgotPassword.index);
+routes.post('/reset_password', ForgotPassword.store);
 
 routes.use(authMiddleware);
 routes.put('/users', UserController.update);
